@@ -44,7 +44,7 @@ pub struct Client {
     active_games: Vec<Uuid>,
     awaiting_opponent_games: HashMap<i32, Uuid>,
     current_active_game_id: Option<Uuid>,
-    api_url: String,
+    http_url: String,
     ws_url: String,
     http_client: ReqwestClient,
     ws_write: Option<SplitSink<WebSocketStream<MaybeTlsStream<TcpStream>>, Message>>,
@@ -59,7 +59,7 @@ impl Client {
             active_games: Vec::new(),
             awaiting_opponent_games: HashMap::new(),
             current_active_game_id: None,
-            api_url: "http://localhost:8080".to_string(),
+            http_url: "http://localhost:8080".to_string(),
             ws_url: "ws://localhost:8081".to_string(),
             http_client: ReqwestClient::new(),
             ws_write: None,
@@ -122,7 +122,7 @@ impl Client {
 
     async fn get_games(&mut self, request: GetGamesRequest) {
         let http_response = self.http_client
-            .get(self.api_url.clone() + "/get_games")
+            .get(self.http_url.clone() + "/get_games")
             .json(&request)
             .send()
             .await;
@@ -150,7 +150,7 @@ impl Client {
 
     async fn join_game(&mut self, request: JoinGameRequest) {
         let http_response = self.http_client
-            .put(self.api_url.clone() + "/join_game")
+            .put(self.http_url.clone() + "/join_game")
             .json(&request)
             .send()
             .await;
@@ -187,7 +187,7 @@ impl Client {
     async fn create_game(&mut self, request: CreateGameRequest) {
         let CreateGameRequest { user_id, color: _} = request.clone();
         let http_response = self.http_client
-            .post(self.api_url.clone() + "/create_game")
+            .post(self.http_url.clone() + "/create_game")
             .json(&request)
             .send()
             .await;
