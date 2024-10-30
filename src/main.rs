@@ -1,6 +1,7 @@
 mod request;
 mod response;
 mod client;
+mod ws_client;
 
 use std::ops::Deref;
 use tokio::io::{AsyncBufReadExt, BufReader};
@@ -9,6 +10,7 @@ use futures_util::{SinkExt, StreamExt};
 use serde::Serialize;
 
 use crate::client::Client;
+use crate::ws_client::run_client;
 
 
 
@@ -26,4 +28,5 @@ async fn main() {
     println!("Your user ID is: {}", client.user_id.clone());
 
     client.run_client().await;
+    // run_client().await;
 }
