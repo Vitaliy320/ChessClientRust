@@ -21,6 +21,8 @@ pub struct MakeMoveResponse {
     pub columns: String,
     pub rows: String,
     pub board: HashMap<String, (String, Vec<String>)>,
+    pub game_status: String,
+    pub game_end_condition: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
